@@ -170,6 +170,7 @@ Once your program works correctly:
 2. **Input validation** - Ensure dates are valid and inputs are reasonable
 3. **Multiple tickets** - Allow the user to generate multiple tickets in one run
 4. **Group pricing** - For walkthrough parties, calculate individual prices and a total
+5. **Save to file** - Write ticket information to a text file for record-keeping (see File I/O Extension below)
 
 ## Simplified Flow (Compared to Original)
 
@@ -193,3 +194,70 @@ Your grade will be based on:
 * Clear, formatted output
 * Code style and documentation
 * Testing with various inputs
+
+---
+
+## File I/O Extension (Optional - Extra Credit)
+
+For students who want to explore file writing, you can add functionality to save ticket records to a text file.
+
+### Additional Method to Implement
+
+```java
+/**
+ * Appends ticket information to a text file
+ * @param filename name of the file to write to (e.g., "tickets.txt")
+ * @param ticketInfo String containing all ticket information to save
+ * @throws IOException if file cannot be written
+ */
+public static void saveTicketToFile(String filename, String ticketInfo) throws IOException
+```
+
+### What to Save
+Your file should contain one line per ticket with the following information separated by commas or pipes (|):
+- Ticket ID
+- Customer name
+- Visit date
+- Age
+- Total cost
+- Alcohol access (Yes/No)
+- Train access (Yes/No/N/A)
+
+Example line:
+```
+12345|John Smith|12/25/2024|35|$20.00|Yes|No
+```
+
+### Implementation Tips
+1. Import `java.io.*` at the top of your file
+2. Use `FileWriter` with append mode: `new FileWriter(filename, true)`
+3. Use `PrintWriter` to write lines easily
+4. Remember to close your writers (or use try-with-resources)
+5. Handle the `IOException` by adding `throws IOException` to your method signature
+
+### Example Usage in Main
+```java
+// After generating and displaying the ticket
+String ticketRecord = String.format("%s|%s|%s|%d|$%.2f|%s|%s",
+    ticketID, fullName, visitDate, age, totalCost,
+    alcoholAccess ? "Yes" : "No", trainAccess);
+
+try {
+    saveTicketToFile("zoolights_tickets.txt", ticketRecord);
+    System.out.println("\n✓ Ticket saved to file successfully!");
+} catch (IOException e) {
+    System.out.println("\n✗ Error saving ticket to file: " + e.getMessage());
+}
+```
+
+### Testing Your File Writing
+After running your program several times, open `zoolights_tickets.txt` to verify:
+- Each ticket is on its own line
+- New tickets are appended (not overwriting previous ones)
+- All information is correctly formatted
+- The file can be opened in any text editor
+
+### Additional Resources
+- **Quick Reference**: See `FileIO_QuickReference.md` for a one-page summary
+- **Detailed Guide**: See `FileIO_Extension_Guide.md` for step-by-step instructions
+- **Sample Output**: See `sample_zoolights_tickets.txt` for example file format
